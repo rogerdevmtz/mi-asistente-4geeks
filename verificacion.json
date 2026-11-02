@@ -1,0 +1,210 @@
+{
+  "timestamp_utc": "2026-11-02T20:12:35.186321+00:00",
+  "skills": {
+    "4geeks-conexion": {
+      "structure_valid": true,
+      "syntax_valid": true,
+      "helper_passed": true,
+      "result": {
+        "http_status": 200,
+        "session_valid": true,
+        "identity_verified": true
+      }
+    },
+    "4geeks-proyectos": {
+      "structure_valid": true,
+      "syntax_valid": true,
+      "helper_passed": true,
+      "result": {
+        "complete": true,
+        "totals": {
+          "PENDING": 7,
+          "DONE": 0,
+          "APPROVED": 0,
+          "REJECTED": 0,
+          "UNKNOWN": 0
+        },
+        "pagination_complete": true
+      }
+    },
+    "4geeks-pendientes": {
+      "structure_valid": true,
+      "syntax_valid": true,
+      "helper_passed": true,
+      "result": {
+        "complete": true,
+        "totals": {
+          "to_do": 43,
+          "corrections": 0,
+          "waiting_review": 3,
+          "approved": 44,
+          "unclassified": 0
+        },
+        "deadline_count": 0,
+        "cohort_ids": [
+          "1810",
+          "1816",
+          "1817",
+          "1824",
+          "1827",
+          "1828",
+          "1839",
+          "1840"
+        ],
+        "pagination_complete": true
+      }
+    },
+    "4geeks-progreso": {
+      "structure_valid": true,
+      "syntax_valid": true,
+      "helper_passed": true,
+      "result": {
+        "requested_slug": "spain-aie-pt-5",
+        "scope_mode": "course",
+        "endpoint_user": "/v1/admissions/user/me",
+        "http_user": 200,
+        "endpoint_tasks": "/v1/assignment/user/me/task",
+        "complete": true,
+        "macro_cohort_id": 1839,
+        "linked_module_count": 7,
+        "pagination_complete": true,
+        "denominator_definition": "registros de asignación del estudiante en los cohort IDs incluidos; cada registro cuenta una vez",
+        "total_assignments": 90,
+        "task_status_counts": {
+          "PENDING": 43,
+          "DONE": 47
+        },
+        "revision_status_counts": {
+          "PENDING": 46,
+          "APPROVED": 44
+        },
+        "completed_by_me": {
+          "numerator": 47,
+          "denominator": 90,
+          "percent": 52.2,
+          "formula": "100 × numerador / denominador",
+          "is_official_4geeks_metric": false
+        },
+        "approved_by_review": {
+          "numerator": 44,
+          "denominator": 90,
+          "percent": 48.9,
+          "formula": "100 × numerador / denominador",
+          "is_official_4geeks_metric": false
+        },
+        "by_task_type": {
+          "PROJECT": {
+            "total": 15,
+            "task_status": {
+              "PENDING": 7,
+              "DONE": 8
+            },
+            "revision_status": {
+              "PENDING": 8,
+              "APPROVED": 7
+            },
+            "completed_by_me": 8,
+            "approved_by_review": 7
+          },
+          "EXERCISE": {
+            "total": 60,
+            "task_status": {
+              "PENDING": 23,
+              "DONE": 37
+            },
+            "revision_status": {
+              "PENDING": 23,
+              "APPROVED": 37
+            },
+            "completed_by_me": 37,
+            "approved_by_review": 37
+          },
+          "LESSON": {
+            "total": 15,
+            "task_status": {
+              "PENDING": 13,
+              "DONE": 2
+            },
+            "revision_status": {
+              "PENDING": 15
+            },
+            "completed_by_me": 2,
+            "approved_by_review": 0
+          }
+        },
+        "cohort_membership_verified_from_rows": true,
+        "cohort_rows_verified": 90
+      }
+    },
+    "4geeks-cohortes": {
+      "structure_valid": true,
+      "syntax_valid": true,
+      "helper_passed": true,
+      "result": {
+        "endpoint_attempted": "/v1/admissions/academy/cohort/me",
+        "http_initial": 403,
+        "endpoint_used": "/v1/admissions/user/me",
+        "http_student": 200,
+        "fallback_reason": "student_endpoint_after_access_denied",
+        "complete": true,
+        "enrollment_count": 32,
+        "multiple_enrollments": true
+      }
+    },
+    "4geeks-feedback": {
+      "structure_valid": true,
+      "syntax_valid": true,
+      "helper_passed": true,
+      "result": {
+        "complete": true,
+        "http_list": [
+          200
+        ],
+        "http_detail": 200,
+        "ownership_verified_from_student_list": true,
+        "cohort_verified": true,
+        "feedback_state": "field_absent",
+        "grade_fields": {}
+      }
+    }
+  },
+  "credential_file_mode": "0o600",
+  "discovery": [
+    {
+      "name": "4geeks-cohortes",
+      "eligible": true,
+      "disabled": false,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "4geeks-conexion",
+      "eligible": true,
+      "disabled": false,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "4geeks-feedback",
+      "eligible": true,
+      "disabled": false,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "4geeks-pendientes",
+      "eligible": true,
+      "disabled": false,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "4geeks-progreso",
+      "eligible": true,
+      "disabled": false,
+      "source": "openclaw-workspace"
+    },
+    {
+      "name": "4geeks-proyectos",
+      "eligible": true,
+      "disabled": false,
+      "source": "openclaw-workspace"
+    }
+  ]
+}

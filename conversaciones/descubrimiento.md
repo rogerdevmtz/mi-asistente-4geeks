@@ -1,0 +1,3 @@
+# Conversación inicial
+
+Quiero darte la habilidad de conectarte a mi cuenta de 4Geeks usando mi token de estudiante, sin que tenga que desarrollar codigo de mi parte. Que debemos hacer? Estamos iniciando el proyecto Mi Asistente 4Geeks. Primero responde con un plan para la primera skill de autenticar y dime que informacion necesitas. No crees aun todas las skills. Comprueba solo si ya existe una credencial de estudiante en tu configuracion privada; nunca imprimas su valor ni configuraciones completas. No modifiques las integraciones anteriores ni publiques nada. Referencia oficial: https://raw.githubusercontent.com/4GeeksAcademy/ai-engineering-syllabus/main/content/projects/openclaw-integration/STUDENT_API_CALLS_REFERENCE.es.md
