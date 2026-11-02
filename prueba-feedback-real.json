@@ -1,0 +1,36 @@
+{
+  "task_id": 1017634,
+  "expected_cohort_id": 1688,
+  "title": "Connect Your Agent: Telegram, Google Drive & Calendar",
+  "list_endpoint": "/v1/assignment/user/me/task",
+  "detail_endpoint": "/v1/assignment/user/me/task/1017634",
+  "http_list": [
+    200
+  ],
+  "http_detail": 200,
+  "ownership_verified_from_student_list": true,
+  "cohort_verified": true,
+  "task_status": "DONE",
+  "revision_status": "APPROVED",
+  "reviewed_at": "2026-10-28T22:20:49.292667Z",
+  "feedback_state": "available",
+  "feedback_text_present": true,
+  "complete": true,
+  "tested_at_utc": "2026-11-02T20:30:54.724788+00:00",
+  "feedback_source_field": "description",
+  "feedback_excerpt": "Me gustó que habilitaras solo las acciones necesarias. Aprobado.",
+  "excerpt_is_exact_substring": true,
+  "feedback_character_count": 265,
+  "feedback_sha256": "c253850fb299cf218fc3dd444b2518da4e7d726c0e75ba219954c327856c21e1",
+  "grade_available": false,
+  "classification_cases_passed": 3,
+  "search_scope": {
+    "own_assignments_searched": 193,
+    "pages": 2,
+    "http_pages": [
+      200,
+      200
+    ]
+  },
+  "privacy": "Se publica un fragmento exacto sin el saludo personal; se omiten nombres, credenciales y URLs de entregas."
+}

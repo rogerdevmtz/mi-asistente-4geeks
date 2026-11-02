@@ -155,7 +155,7 @@
       "structure_valid": true,
       "syntax_valid": true,
       "helper_passed": true,
-      "result": {
+      "initial_result": {
         "complete": true,
         "http_list": [
           200
@@ -165,7 +165,24 @@
         "cohort_verified": true,
         "feedback_state": "field_absent",
         "grade_fields": {}
-      }
+      },
+      "initial_result_scope": "Acceso al detalle y ausencia de campos explícitos; no demostraba feedback con texto.",
+      "tested_at_utc": "2026-11-02T20:30:54.724788+00:00",
+      "result": {
+        "task_id": 1017634,
+        "http_list": [
+          200
+        ],
+        "http_detail": 200,
+        "ownership_verified_from_student_list": true,
+        "cohort_verified": true,
+        "feedback_source_field": "description",
+        "feedback_text_present": true,
+        "feedback_excerpt": "Me gustó que habilitaras solo las acciones necesarias. Aprobado.",
+        "complete": true
+      },
+      "feedback_content_test_passed": true,
+      "evidence_file": "prueba-feedback-real.json"
     }
   },
   "credential_file_mode": "0o600",

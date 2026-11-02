@@ -97,19 +97,27 @@ Por ejemplo, `spain-aie-pt-5` tiene inscripción `ACTIVE` y etapa `STARTED`. Son
 
 **Lo que pedí:** «Mi segunda necesidad adicional es entender el detalle y feedback de una tarea para saber cómo mejorarla. Si el feedback está vacío, dilo».
 
-**Qué decidimos:** crear `4geeks-feedback`. Primero comprueba que el ID aparece en mis tareas de la cohorte indicada. Después consulta su detalle y muestra los estados y el feedback que realmente devuelve la API.
+**Qué decidimos:** crear `4geeks-feedback`. Comprueba que la tarea pertenece a mi cuenta y cohorte, consulta su detalle y devuelve el comentario recibido con su campo de origen.
 
 **API:** `GET /v1/assignment/user/me/task`, filtrando la cohorte, y `GET /v1/assignment/user/me/task/{task_id}`. La ruta personal de detalle filtra por el usuario autenticado; es la alternativa comprobada a la ruta genérica del mapa del ejercicio.
 
-**Prueba real, 21:08:** consultamos mi tarea `1004503`, de la cohorte `1839`. Ambas llamadas devolvieron HTTP 200 y coincidieron el ID y la cohorte.
+**Primera prueba, 21:08:** la tarea pendiente `1004503` permitió comprobar el acceso al detalle, pero no la recuperación de feedback con contenido. Esa prueba quedó incompleta para demostrar esta capacidad.
 
-El título recibido fue «Milestone 1 — Your Company's Public Website», con `task_status=PENDING` y `revision_status=PENDING`. La respuesta no incluía campos de feedback ni nota y Atlas lo indicó. La prueba confirma el acceso al detalle; no demuestra la recuperación de comentarios que esta ruta no devuelve.
+**Corrección:** busqué entre mis 193 asignaciones, recuperadas en dos páginas con HTTP 200. Encontré comentarios en tareas aprobadas: la API los devuelve en `description`, un campo que la primera versión de la skill omitía. Corregí el lector para conservar ese texto cuando existe fecha de revisión y estado `APPROVED` o `REJECTED`.
+
+**Prueba con feedback real, 21:30:** la tarea propia `1017634`, «Connect Your Agent: Telegram, Google Drive & Calendar», pertenece a la cohorte `1688`. La lista y el detalle devolvieron HTTP 200. Su estado es `DONE`, su revisión `APPROVED` y tiene fecha de revisión.
+
+Fragmento exacto del comentario recuperado de `description`:
+
+> Me gustó que habilitaras solo las acciones necesarias. Aprobado.
+
+La prueba confirma texto no vacío y coincidencia de tarea y cohorte. También pasaron tres casos: descripción sin revisión, comentario vacío y comentario de una tarea revisada. La respuesta no contiene nota numérica. Los resultados están en [prueba-feedback-real.json](prueba-feedback-real.json). Atlas repitió la consulta desde la conversación y devolvió el comentario real; la [petición y respuesta](conversaciones/feedback-real.md) documentan esta prueba. Se omite el saludo personal del comentario publicado.
 
 ## Comprobación final
 
-A las 21:12 se volvieron a ejecutar las seis consultas con la cuenta real. Pasaron las pruebas, la validación de estructura y la comprobación de sintaxis. OpenClaw reconoció las seis skills como disponibles. Los resultados están en [verificacion.json](verificacion.json).
+A las 21:12 se ejecutaron las seis consultas y OpenClaw reconoció las seis skills como disponibles. En ese momento, la prueba de feedback solo demostraba acceso al detalle. La corrección y la prueba de las 21:30 completan la evidencia de texto real. [verificacion.json](verificacion.json) distingue ambas comprobaciones.
 
-La revisión de privacidad no encontró el token en los 22 archivos originales del paquete. El resultado está en [privacidad.json](privacidad.json).
+La revisión de privacidad del paquete actualizado no encontró el token en sus 26 archivos. El resultado está en [privacidad.json](privacidad.json).
 
 También se revisó la clasificación de proyectos: una entrega con `DONE` no implica aprobación. La prueba real identificó los 7 proyectos pendientes de la cohorte principal y 2 aprobados de `personal-assistants-with-openclaw`. Pasaron además cinco casos de clasificación que cubren pendientes, revisión, aprobación, rechazo y estados sin clasificar.
 
@@ -146,5 +154,6 @@ Después, Atlas respondió a una pregunta de progreso desde la conversación: se
 | [Petición 4](conversaciones/skill-4.md) | [Progreso](skills/4geeks-progreso/SKILL.md) |
 | [Petición 5](conversaciones/skill-5.md) | [Cohortes](skills/4geeks-cohortes/SKILL.md) |
 | [Petición 6](conversaciones/skill-6.md) | [Detalle y feedback](skills/4geeks-feedback/SKILL.md) |
+| [Corrección y prueba de feedback](conversaciones/feedback-real.md) | Consulta de una tarea revisada con comentario real. |
 
 Los resultados corresponden al momento de las pruebas y cambiarán a medida que avance el curso.

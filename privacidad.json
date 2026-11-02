@@ -1,5 +1,5 @@
 {
-  "files_scanned": 22,
+  "files_scanned": 26,
   "student_token_matches": 0,
   "passed": true,
   "method": "Comparación del token privado con los archivos del paquete, dentro de la VPS y sin mostrar la credencial."

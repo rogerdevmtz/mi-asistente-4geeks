@@ -66,6 +66,12 @@ def feedback_fields(detail):
             else:
                 # Nested review objects may contain private payloads; expose only presence.
                 output[key] = "present_non_scalar"
+    # In the student API, reviewed tasks carry the review comment in description.
+    # Keep the source explicit; an unreviewed task description is not evidence of feedback.
+    description = detail.get("description")
+    if (detail.get("reviewed_at") and detail.get("revision_status") in ("APPROVED", "REJECTED")
+            and isinstance(description, str) and description.strip()):
+        output["description"] = description
     if output:
         return output, "empty" if all(v in (None, "") for v in output.values()) else "available"
     return {}, "field_absent"
@@ -172,8 +178,10 @@ def main(task_id_text, cohort_id_text):
         "task_type": detail.get("task_type"),
         "task_status": detail.get("task_status"),
         "revision_status": detail.get("revision_status"),
+        "reviewed_at": detail.get("reviewed_at"),
         "feedback_fields": feedback,
         "feedback_state": feedback_state,
+        "feedback_text_present": any(isinstance(v, str) and v.strip() and v != "present_non_scalar" for v in feedback.values()),
         "grade_fields": {key: detail[key] for key in ("grade", "score", "rating") if key in detail and isinstance(detail[key], (str, int, float, bool, type(None)))},
         "complete": True,
     })
