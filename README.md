@@ -4,24 +4,14 @@ Este proyecto enseña a Atlas, mi agente de OpenClaw, a consultar mi progreso en
 
 La entrega principal es [SKILL_LOG.md](SKILL_LOG.md). Recoge qué pedí, cómo respondió el agente, qué skill construimos y qué ocurrió al probarla con la API real.
 
-## Qué debe poder hacer
+## Qué incluye la entrega
 
-| Skill | Pregunta que resuelve |
-| --- | --- |
-| Conexión | ¿Mi sesión de 4Geeks funciona? |
-| Proyectos | ¿Qué proyectos tengo asignados y en qué estado están? |
-| Pendientes | ¿Qué me falta completar o corregir? |
-| Progreso | ¿Cuánto he avanzado y cómo se calcula? |
-| Cohortes | ¿En qué cohortes estoy inscrito? |
-| Detalle y feedback | ¿Qué revisión tiene una tarea y qué debo mejorar? |
+- [Registro de las seis skills](SKILL_LOG.md): peticiones, decisiones, consultas a la API, pruebas y límites encontrados.
+- [Skills y programas de consulta](skills/): conexión, proyectos, pendientes, progreso, cohortes y detalle de tareas.
+- [Peticiones originales](conversaciones/): instrucciones enviadas a Atlas y respuesta de la prueba conversacional final.
+- [Verificación conjunta](verificacion.json): resultados resumidos de las seis pruebas.
 
-Las dos últimas responden a necesidades adicionales: ubicar cada módulo del curso y entender la revisión de una tarea.
-
-## Cómo se protege la credencial
-
-El token se guarda en la configuración privada de OpenClaw, fuera del repositorio. Las skills lo cargan al ejecutar las consultas y no lo muestran en sus respuestas.
-
-Todas las consultas del proyecto son de lectura. No cambian tareas ni envían entregas. Las pruebas y sus límites se detallan en el registro.
+El registro contiene la revisión de los requisitos del reto. La credencial de estudiante se guarda fuera del repositorio.
 
 ## Referencias
 

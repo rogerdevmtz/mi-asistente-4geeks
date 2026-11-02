@@ -1,12 +1,14 @@
-# Mi Asistente 4Geeks — registro de skills
+# Mi Asistente 4Geeks: registro de skills
 
-He enseñado a Atlas, mi agente de OpenClaw, a consultar mi cuenta de 4Geeks. Lo construimos mediante conversaciones, una skill cada vez. Cada una resuelve una pregunta concreta y usa únicamente consultas de lectura.
+He enseñado a Atlas, mi agente de OpenClaw, a consultar mi cuenta de 4Geeks mediante seis skills. Este registro recoge las peticiones, las decisiones y las pruebas con la API, el servicio que permite consultar los datos de la plataforma.
+
+Todas las pruebas son del 2 de noviembre de 2026. Las horas usan Europe/Madrid. HTTP 200 indica que la consulta respondió correctamente; HTTP 403, que la ruta denegó el acceso.
 
 ## Cómo empezamos
 
 Mi primera petición fue: «Quiero darte la habilidad de conectarte a mi cuenta de 4Geeks usando mi token de estudiante, sin que tenga que desarrollar código de mi parte. ¿Qué debemos hacer?».
 
-Atlas propuso empezar por comprobar la conexión. Me pidió el token y confirmar la dirección de la API. La credencial se guardó en la configuración privada de OpenClaw, con permisos restringidos. No está en las skills ni en este repositorio.
+Atlas propuso comprobar primero la conexión. Me pidió guardar el token de forma privada y confirmar la dirección de la API. La credencial quedó fuera del repositorio, en la configuración de OpenClaw con permisos `600`, que restringen el acceso al propietario.
 
 Después fuimos añadiendo las cuatro capacidades principales y dos necesidades adicionales: consultar mis cohortes y entender el feedback de una tarea.
 
@@ -18,7 +20,7 @@ Después fuimos añadiendo las cuatro capacidades principales y dos necesidades 
 
 **API:** `GET /v1/admissions/user/me`.
 
-**Prueba real:** el 2 de noviembre de 2026, a las 20:17 (Europe/Madrid), respondió HTTP 200. La sesión era válida y la respuesta permitió comprobar la identidad. El resultado público contiene solo el estado HTTP y dos comprobaciones de sí/no.
+**Prueba real, 20:17:** HTTP 200, sesión válida e identidad comprobada. El resultado público contiene solo el estado HTTP y dos comprobaciones de sí/no.
 
 ## 2. Consultar mis proyectos
 
@@ -28,9 +30,9 @@ Después fuimos añadiendo las cuatro capacidades principales y dos necesidades 
 
 **API:** `GET /v1/admissions/user/me` para resolver la cohorte y `GET /v1/assignment/user/me/task` con los filtros `task_type=PROJECT` y `cohort`.
 
-**Prueba inicial:** el 2 de noviembre, a las 20:33, la cohorte principal (ID 1839) devolvió 7 proyectos, todos pendientes. La consulta respondió HTTP 200 y la página quedó completa.
+**Prueba real, 20:33:** HTTP 200 y 7 proyectos pendientes de la cohorte principal (ID 1839). La consulta comprobó que no quedaban páginas por recuperar.
 
-La ruta de cohortes sugerida en el mapa del ejercicio devolvió HTTP 403. Atlas usó las inscripciones propias incluidas en el usuario actual, sin cambiar permisos.
+Para resolver la cohorte, Atlas usó las inscripciones del usuario actual. El apartado 5 explica por qué sustituyó la ruta sugerida por el ejercicio.
 
 ## 3. Saber qué me falta
 
@@ -40,7 +42,7 @@ La ruta de cohortes sugerida en el mapa del ejercicio devolvió HTTP 403. Atlas 
 
 **API:** `GET /v1/admissions/user/me` y `GET /v1/assignment/user/me/task`, filtrando los IDs de las cohortes incluidas.
 
-**Prueba real:** el 2 de noviembre, a las 20:41, el curso completo devolvió HTTP 200 y 90 registros. El alcance incluía la cohorte principal y 7 módulos vinculados.
+**Prueba real, 20:41:** HTTP 200 y 90 registros del curso completo: la cohorte principal y sus 7 módulos vinculados.
 
 | Estado | Cantidad |
 | --- | ---: |
@@ -52,7 +54,7 @@ La ruta de cohortes sugerida en el mapa del ejercicio devolvió HTTP 403. Atlas 
 
 Los 43 pendientes son 7 proyectos, 23 ejercicios y 13 lecciones. La API no devolvió fechas límite utilizables; el asistente lo indica sin inventarlas.
 
-La consulta de la cohorte principal por separado devolvió 54 registros: 39 pendientes y 15 aprobados. No debe confundirse con el alcance del curso completo.
+Por separado, la cohorte principal devolvió 54 registros: 39 pendientes y 15 aprobados. La diferencia corresponde a los módulos incluidos en el curso completo.
 
 ## 4. Resumir mi progreso
 
@@ -60,9 +62,9 @@ La consulta de la cohorte principal por separado devolvió 54 registros: 39 pend
 
 **Qué decidimos:** crear `4geeks-progreso`. Agrega los estados de las tareas y distingue el trabajo completado por mí del aprobado en revisión.
 
-**API:** las mismas consultas de usuario y tareas, aplicadas únicamente al curso elegido. No consulta ni modifica entregas.
+**API:** `GET /v1/admissions/user/me` y `GET /v1/assignment/user/me/task`, filtrando las cohortes del curso elegido.
 
-**Prueba real:** el 2 de noviembre, a las 20:51, se recuperaron los 90 registros del curso con HTTP 200 y alcance verificado. Incluyen 15 proyectos, 60 ejercicios y 15 lecciones.
+**Prueba real, 20:51:** HTTP 200 y 90 registros del curso: 15 proyectos, 60 ejercicios y 15 lecciones.
 
 | Medida | Cálculo | Resultado |
 | --- | --- | ---: |
@@ -71,7 +73,7 @@ La consulta de la cohorte principal por separado devolvió 54 registros: 39 pend
 
 El primer cálculo usa `task_status=DONE`; el segundo, `revision_status=APPROVED`. Ambos usan como denominador todos los registros del alcance. Son porcentajes calculados desde las tareas, no una métrica oficial de 4Geeks.
 
-También se probó el modo de cohorte principal: 15 de 54 completados y aprobados, un 27,8 %. Las sumas por tipo coinciden con los totales.
+El cálculo cuenta cada registro de asignación una vez, aunque un título aparezca en la cohorte principal y en un módulo. Las sumas por tipo coinciden con los totales.
 
 ## 5. Consultar mis cohortes
 
@@ -81,7 +83,7 @@ También se probó el modo de cohorte principal: 15 de 54 completados y aprobado
 
 **API:** intenta `GET /v1/admissions/academy/cohort/me`. En mi cuenta devuelve HTTP 403, así que utiliza las inscripciones propias de `GET /v1/admissions/user/me`, que devuelve HTTP 200. No se amplían permisos.
 
-**Prueba real:** el 2 de noviembre, a las 20:59, recuperó 32 inscripciones y confirmó que hay varias activas.
+**Prueba real, 20:59:** recuperó 32 inscripciones y confirmó que hay varias activas.
 
 | Estado de inscripción | Cantidad |
 | --- | ---: |
@@ -89,7 +91,7 @@ También se probó el modo de cohorte principal: 15 de 54 completados y aprobado
 | `GRADUATED` | 5 |
 | `NOT_COMPLETING` | 1 |
 
-Por ejemplo, `spain-aie-pt-5` tiene inscripción `ACTIVE` y etapa `STARTED`. `spain-ai-engineering-introduction` tiene inscripción `NOT_COMPLETING` y etapa `PREWORK`. La skill conserva los valores originales sin confundir ambos campos.
+Por ejemplo, `spain-aie-pt-5` tiene inscripción `ACTIVE` y etapa `STARTED`. Son dos campos distintos y la skill conserva ambos valores.
 
 ## 6. Consultar detalle y feedback
 
@@ -99,21 +101,17 @@ Por ejemplo, `spain-aie-pt-5` tiene inscripción `ACTIVE` y etapa `STARTED`. `sp
 
 **API:** `GET /v1/assignment/user/me/task`, filtrando la cohorte, y `GET /v1/assignment/user/me/task/{task_id}`. La ruta personal de detalle filtra por el usuario autenticado; es la alternativa comprobada a la ruta genérica del mapa del ejercicio.
 
-**Prueba real:** el 2 de noviembre, a las 21:08, consultamos mi tarea `1004503`, de la cohorte `1839`. Ambas llamadas devolvieron HTTP 200 y coincidieron el ID y la cohorte.
+**Prueba real, 21:08:** consultamos mi tarea `1004503`, de la cohorte `1839`. Ambas llamadas devolvieron HTTP 200 y coincidieron el ID y la cohorte.
 
-El título recibido fue «Milestone 1 — Your Company's Public Website». Sus estados eran `task_status=PENDING` y `revision_status=PENDING`. La respuesta no incluía campos de feedback ni nota. Atlas informó de esa ausencia sin inventar comentarios del revisor.
-
-Esta limitación pertenece a los datos que expone la ruta consultada: la prueba demuestra acceso al detalle, no la existencia de comentarios ni calificaciones que la API no devuelve.
+El título recibido fue «Milestone 1 — Your Company's Public Website», con `task_status=PENDING` y `revision_status=PENDING`. La respuesta no incluía campos de feedback ni nota y Atlas lo indicó. La prueba confirma el acceso al detalle; no demuestra la recuperación de comentarios que esta ruta no devuelve.
 
 ## Comprobación final
 
-El 2 de noviembre, a las 21:12 (Europe/Madrid), se volvieron a ejecutar las seis consultas. Pasaron la validación de estructura, la comprobación de sintaxis y las pruebas con la cuenta real. OpenClaw reconoció las seis skills como disponibles. El resumen verificable está en [verificacion.json](verificacion.json).
+A las 21:12 se volvieron a ejecutar las seis consultas con la cuenta real. Pasaron las pruebas, la validación de estructura y la comprobación de sintaxis. OpenClaw reconoció las seis skills como disponibles. Los resultados están en [verificacion.json](verificacion.json).
 
-La revisión de privacidad comparó el token privado con los 22 archivos originales del paquete y no encontró coincidencias. El resultado está en [privacidad.json](privacidad.json); el archivo privado de credenciales no forma parte de la entrega.
+La revisión de privacidad no encontró el token en los 22 archivos originales del paquete. El resultado está en [privacidad.json](privacidad.json).
 
 También se revisó la clasificación de proyectos: una entrega con `DONE` no implica aprobación. La prueba real identificó los 7 proyectos pendientes de la cohorte principal y 2 aprobados de `personal-assistants-with-openclaw`. Pasaron además cinco casos de clasificación que cubren pendientes, revisión, aprobación, rechazo y estados sin clasificar.
-
-Los porcentajes cuentan registros de asignación. Si el mismo título aparece en la cohorte principal y en un módulo, cada asignación cuenta por separado. El alcance queda explícito para que el resultado se pueda reproducir.
 
 ### Revisión de los criterios
 
@@ -129,15 +127,13 @@ Los porcentajes cuentan registros de asignación. Si el mismo título aparece en
 | Información precisa | Estados literales, fórmulas reproducibles, alcance y límites expresos. |
 | Entrega en GitHub | `SKILL_LOG.md` en la raíz del repositorio junto a las skills y la verificación. |
 
-Las pruebas se hicieron con consultas de lectura. No se cambiaron tareas, entregas ni permisos de 4Geeks. La prueba de feedback no se presenta como evidencia de comentarios disponibles, y los porcentajes calculados no se atribuyen a la plataforma.
+Las skills usan únicamente consultas de lectura. No cambian tareas, entregas ni permisos de 4Geeks.
 
 ### Incidencia del entorno
 
-Una prueba adicional que pidió usar las seis skills en una sola conversación se interrumpió: la VPS se quedó sin memoria y el sistema detuvo OpenClaw. No se cuenta como una prueba conversacional superada. El servicio existente se recuperó y completó su preparación interna.
+Una prueba adicional con las seis skills en una sola conversación se interrumpió por falta de memoria en el servidor. No se cuenta como superada. El servicio se recuperó; conviene evitar agrupar tantas operaciones en el servidor actual.
 
-Las seis pruebas reales anteriores y su verificación conjunta siguen siendo válidas. Esta incidencia muestra un límite del entorno: conviene hacer consultas concretas y evitar agrupar demasiadas operaciones en la VPS actual.
-
-Después de la recuperación se probó una pregunta concreta de progreso desde la conversación. Atlas seleccionó `4geeks-progreso`, ejecutó una consulta nueva y respondió con 47/90 completadas y 44/90 aprobadas. La [petición y respuesta final](conversaciones/comprobacion-final.md) documentan esa prueba superada.
+Después, Atlas respondió a una pregunta de progreso desde la conversación: seleccionó `4geeks-progreso`, consultó la API y devolvió 47/90 completadas y 44/90 aprobadas. La [petición y respuesta final](conversaciones/comprobacion-final.md) documentan esa prueba superada.
 
 ### Peticiones originales y archivos
 
@@ -151,4 +147,4 @@ Después de la recuperación se probó una pregunta concreta de progreso desde l
 | [Petición 5](conversaciones/skill-5.md) | [Cohortes](skills/4geeks-cohortes/SKILL.md) |
 | [Petición 6](conversaciones/skill-6.md) | [Detalle y feedback](skills/4geeks-feedback/SKILL.md) |
 
-Las fechas y horas de este registro usan Europe/Madrid. Los resultados son una instantánea de las pruebas; las próximas consultas pueden cambiar a medida que avance el curso.
+Los resultados corresponden al momento de las pruebas y cambiarán a medida que avance el curso.
